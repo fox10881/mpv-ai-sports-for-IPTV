@@ -1,0 +1,36 @@
+# mpv AI Sports & Cinema Build - strict whitelist:
+# ignore EVERYTHING, then re-include only scripts, configs and docs.
+
+*
+
+# --- Tracked: repo docs ---
+!.gitignore
+!README.md
+!LICENSE
+
+# --- Tracked: screenshot placeholders ---
+!assets/
+!assets/*
+
+# --- Tracked: Lua scripts ---
+!scripts/
+!scripts/*.lua
+
+# --- Tracked: mpv configuration ---
+!portable_config/
+!portable_config/mpv.conf
+!portable_config/input.conf
+!portable_config/menu.conf
+!portable_config/script.json
+
+# --- Tracked: ReShade configuration ---
+!ReShade*.ini
+
+# --- Explicitly ignored (documentation value, kept local) ---
+# Binaries & runtime: mpv.exe, *.dll, *.addon64, *.com, *.bat, *.dmp
+# ReShade shader pack (vendor files): reshade-shaders/
+# mpv bundled dirs: doc/, externals/, installer/, mpv/
+# Caches & runtime state: portable_config/cache/, watch_later/,
+#   portable_config/menu_lang, portable_config/enhancement_mode
+# Logs & dumps: *.log, *.log1, *.log2, debug/, dlss5-feed.log, *.dmp
+# Stray generated menu.conf in repo root (real one is portable_config/menu.conf)
