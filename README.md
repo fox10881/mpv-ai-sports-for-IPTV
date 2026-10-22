@@ -13,11 +13,11 @@ A portable mpv build tuned for **live IPTV football streams** on NVIDIA RTX hard
 
 ### Installation
 
-1. Download the official [mpv for Windows](https://mpv.io/installation/) and extract it anywhere (e.g. `C:\mpv`).
-2. Download this repository (Code → Download ZIP) and extract it **inside** your mpv folder, so `portable_config\`, `scripts\` and `ReShade*.ini` sit next to `mpv.exe`.
-3. Double-click **`install.bat`** — it downloads the AI/DLSS/ReShade binaries from [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5) nightly and merges them automatically, without overwriting this repo's custom `.ini` configs.
+1. Download this repository (Code → Download ZIP) and extract it into an **empty folder** (e.g. `C:\mpv`).
+2. Double-click **`install.bat`** — it automatically downloads the latest [mpv build](https://github.com/zhongfly/mpv-winbuild) **and** the AI/DLSS/ReShade binaries from [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5) nightly, then merges everything without overwriting this repo's custom `.ini` configs.
+3. Launch `mpv.exe` — done.
 
-> This repo ships **config & scripts only** — no NVIDIA/DLSS binaries are hosted here; `install.bat` fetches them from the upstream project at runtime.
+> This repo ships **config & scripts only** — no mpv or NVIDIA/DLSS binaries are hosted here; `install.bat` fetches them from their upstream projects at runtime. Requires a CPU with AVX2 (x86-64-v3, ~2013+).
 
 ### Features
 
@@ -84,11 +84,11 @@ Track up to **3 live matches** while you watch: right-click → *Live Scores / �
 
 ### التثبيت
 
-1. حمّل النسخة الرسمية من [mpv لويندوز](https://mpv.io/installation/) واستخرجها في أي مكان (مثل `C:\mpv`).
-2. حمّل هذا المستودع (Code → Download ZIP) واستخرجه **داخل** مجلد mpv، بحيث تقع `portable_config\` و`scripts\` وملفات `ReShade*.ini` بجانب `mpv.exe`.
-3. انقر نقراً مزدوجاً على **`install.bat`** — سيحمّل ملفات الذكاء الاصطناعي وDLSS وReShade من النسخة الليلية لمشروع [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5) ويدمجها تلقائياً دون استبدال ملفات `.ini` المخصصة في هذا المستودع.
+1. حمّل هذا المستودع (Code → Download ZIP) واستخرجه في **مجلد فارغ** (مثل `C:\mpv`).
+2. انقر نقراً مزدوجاً على **`install.bat`** — سيحمّل تلقائياً أحدث [نسخة mpv](https://github.com/zhongfly/mpv-winbuild) **و** ملفات الذكاء الاصطناعي وDLSS وReShade من النسخة الليلية لمشروع [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5)، ثم يدمج كل شيء دون استبدال ملفات `.ini` المخصصة في هذا المستودع.
+3. شغّل `mpv.exe` — انتهى.
 
-> هذا المستودع يحتوي **الإعدادات والسكربتات فقط** — لا تُستضاف هنا أي ملفات NVIDIA/DLSS ثنائية؛ يقوم `install.bat` بجلبها من المشروع الأصلي عند التشغيل.
+> هذا المستودع يحتوي **الإعدادات والسكربتات فقط** — لا تُستضاف هنا أي ملفات mpv أو NVIDIA/DLSS ثنائية؛ يقوم `install.bat` بجلبها من مشاريعها الأصلية عند التشغيل. يتطلب معالجاً يدعم AVX2 (x86-64-v3، ~2013 فأحدث).
 
 ### الميزات
 
