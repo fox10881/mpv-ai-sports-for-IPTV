@@ -9,7 +9,15 @@
 
 A portable mpv build tuned for **live IPTV football streams** on NVIDIA RTX hardware. It combines a massive anti-stutter caching pipeline, RTX Video Super Resolution, DLSS 5 via ReShade, native 120Hz frame generation, and a fully bilingual (English/Arabic) context menu with live match scores.
 
-> **Requirements:** Windows 10/11, NVIDIA RTX GPU (VSR + DLSS features), mpv portable build, ReShade with the DLSS 5 add-on.
+> **Requirements:** Windows 10/11, NVIDIA RTX GPU (VSR + DLSS features), mpv portable build.
+
+### Installation
+
+1. Download the official [mpv for Windows](https://mpv.io/installation/) and extract it anywhere (e.g. `C:\mpv`).
+2. Download this repository (Code → Download ZIP) and extract it **inside** your mpv folder, so `portable_config\`, `scripts\` and `ReShade*.ini` sit next to `mpv.exe`.
+3. Double-click **`install.bat`** — it downloads the AI/DLSS/ReShade binaries from [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5) nightly and merges them automatically, without overwriting this repo's custom `.ini` configs.
+
+> This repo ships **config & scripts only** — no NVIDIA/DLSS binaries are hosted here; `install.bat` fetches them from the upstream project at runtime.
 
 ### Features
 
@@ -72,7 +80,15 @@ Track up to **3 live matches** while you watch: right-click → *Live Scores / �
 
 نسخة محمولة من مشغّل mpv مُحسَّنة خصيصاً لـ **بث مباريات كرة القدم المباشرة (IPTV)** على بطاقات NVIDIA RTX. تجمع بين نظام تخزين مؤقت ضخم مضاد للتقطيع، وترقية الذكاء الاصطناعي عبر RTX VSR وDLSS 5، وتوليد الإطارات بمعدل 120Hz، وقائمة سياقية ثنائية اللغة (عربي/إنجليزي) مع نتائج المباريات المباشرة.
 
-> **المتطلبات:** ويندوز 10/11، بطاقة NVIDIA RTX (لميزات VSR وDLSS)، نسخة mpv المحمولة، وReShade مع إضافة DLSS 5.
+> **المتطلبات:** ويندوز 10/11، بطاقة NVIDIA RTX (لميزات VSR وDLSS)، نسخة mpv المحمولة.
+
+### التثبيت
+
+1. حمّل النسخة الرسمية من [mpv لويندوز](https://mpv.io/installation/) واستخرجها في أي مكان (مثل `C:\mpv`).
+2. حمّل هذا المستودع (Code → Download ZIP) واستخرجه **داخل** مجلد mpv، بحيث تقع `portable_config\` و`scripts\` وملفات `ReShade*.ini` بجانب `mpv.exe`.
+3. انقر نقراً مزدوجاً على **`install.bat`** — سيحمّل ملفات الذكاء الاصطناعي وDLSS وReShade من النسخة الليلية لمشروع [ahaoboy/mpv-dlss5](https://github.com/ahaoboy/mpv-dlss5) ويدمجها تلقائياً دون استبدال ملفات `.ini` المخصصة في هذا المستودع.
+
+> هذا المستودع يحتوي **الإعدادات والسكربتات فقط** — لا تُستضاف هنا أي ملفات NVIDIA/DLSS ثنائية؛ يقوم `install.bat` بجلبها من المشروع الأصلي عند التشغيل.
 
 ### الميزات
 
