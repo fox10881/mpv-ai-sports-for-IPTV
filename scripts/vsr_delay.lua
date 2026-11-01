@@ -32,6 +32,9 @@ local held = false
 local warmup_timer = nil
 local saved = nil
 local warming = false
+local warming_since = nil    -- stuck-warm-up watchdog timestamp
+local user_override = false  -- a manual toggle beats auto-detection until the next file
+local end_warmup             -- forward declaration (set_mode's warm-up watchdog)
 
 local MODE_FILE = mp.command_native({ "expand-path", "~~state/enhancement_mode" })
 local RESHADE_INI = mp.command_native({ "expand-path", o.reshade_ini })
@@ -243,11 +246,17 @@ local function set_mode(target, quiet)
         return
     end
     if warming then
-        -- The startup DLSS 5 warm-up must finish first; apply right after it
-        mode = target
-        save_mode()
-        publish()
-        return mp.osd_message("Enhancement Mode: " .. mode_label() .. " after warm-up", 2)
+        -- The startup DLSS 5 warm-up must finish first; apply right after it.
+        -- Watchdog: if playback-restart never arrived, the warm-up can never
+        -- complete and every toggle would defer forever - recover instead.
+        if warming_since and mp.get_time() - warming_since > 20 then
+            end_warmup(false)
+        else
+            mode = target
+            save_mode()
+            publish()
+            return mp.osd_message("Enhancement Mode: " .. mode_label() .. " after warm-up", 2)
+        end
     end
 
     switching = target
@@ -287,7 +296,10 @@ local function set_mode(target, quiet)
     end
 end
 
-mp.register_script_message("set-mode", function(m) set_mode(m) end)
+mp.register_script_message("set-mode", function(m)
+    user_override = true  -- manual menu toggle wins over auto-detection for this file
+    set_mode(m)
+end)
 
 ---------------------------------------------------------------------------
 -- Smart content detection: pick the enhancement mode per file
@@ -309,13 +321,15 @@ mp.register_event("file-loaded", function()
     for _, hint in ipairs(LIVE_HINTS) do
         if url:find(hint, 1, true) then live = true break end
     end
-    set_mode(live and "fg" or "dlss", true)
+    -- user_override guards the race where a manual toggle landed between
+    -- on_preloaded and this event for the same file
+    if not user_override then set_mode(live and "fg" or "dlss", true) end
 end)
 
 ---------------------------------------------------------------------------
 -- Per-file setup and DLSS 5 warm-up
 
-local function end_warmup(completed)
+function end_warmup(completed)
     if warmup_timer then
         warmup_timer:kill()
         warmup_timer = nil
@@ -326,7 +340,7 @@ local function end_warmup(completed)
         saved = nil
     end
     if warming then
-        warming = false
+        warming, warming_since = false, nil
         if completed and mode == "fg" then set_mode("fg", true) end
     end
 end
@@ -334,6 +348,7 @@ end
 function on_preloaded()
     end_warmup()
     filter_added, held = false, false
+    user_override = false   -- new file: auto-detection is in charge again
 
     if reshade_preset == "fg" then
         -- DLSS 5 is idle: no add-on stalls to absorb, so no warm-up and no cap
@@ -345,7 +360,7 @@ function on_preloaded()
     -- DLSS 5 is active (always the case on the first file of a launch)
     apply_props(DLSS_PROPS)
     set_fps_cap(true)
-    warming = true
+    warming, warming_since = true, mp.get_time()
     if not mp.get_property_bool("pause") then
         held = true
         mp.set_property_bool("pause", true)
