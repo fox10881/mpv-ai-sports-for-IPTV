@@ -299,8 +299,9 @@ mp.register_script_message("set-mode", function(m) set_mode(m) end)
 -- detected "fg" while the DLSS 5 warm-up is running is deferred and applied
 -- by end_warmup(). Manual menu toggles never re-fire this event.
 -- URL hints catch seekable live streams too (HLS DVR/timeshift reports a
--- duration), while duration/seekable covers non-URL live sources.
-local LIVE_HINTS = { "m3u8", "/live/", "rtmp://", "rtsp://", "srt://", "rtp://" }
+-- duration), while duration/seekable covers non-URL live sources. Bare
+-- ".m3u8" is deliberately NOT a hint: VOD HLS playlists use it too.
+local LIVE_HINTS = { "/live/", "rtmp://", "rtsp://", "srt://", "rtp://" }
 mp.register_event("file-loaded", function()
     local url = (mp.get_property("stream-open-filename") or mp.get_property("path") or ""):lower()
     local live = mp.get_property_number("duration") == nil
