@@ -290,6 +290,28 @@ end
 mp.register_script_message("set-mode", function(m) set_mode(m) end)
 
 ---------------------------------------------------------------------------
+-- Smart content detection: pick the enhancement mode per file
+--
+--   live stream (no duration or not seekable, e.g. IPTV m3u8) -> Frame Generation
+--   anything else (VOD, local files)                         -> DLSS 5
+--
+-- file-loaded fires once per file and after the on_preloaded hook, so a
+-- detected "fg" while the DLSS 5 warm-up is running is deferred and applied
+-- by end_warmup(). Manual menu toggles never re-fire this event.
+-- URL hints catch seekable live streams too (HLS DVR/timeshift reports a
+-- duration), while duration/seekable covers non-URL live sources.
+local LIVE_HINTS = { "m3u8", "/live/", "rtmp://", "rtsp://", "srt://", "rtp://" }
+mp.register_event("file-loaded", function()
+    local url = (mp.get_property("stream-open-filename") or mp.get_property("path") or ""):lower()
+    local live = mp.get_property_number("duration") == nil
+        or not mp.get_property_bool("seekable", true)
+    for _, hint in ipairs(LIVE_HINTS) do
+        if url:find(hint, 1, true) then live = true break end
+    end
+    set_mode(live and "fg" or "dlss", true)
+end)
+
+---------------------------------------------------------------------------
 -- Per-file setup and DLSS 5 warm-up
 
 local function end_warmup(completed)
